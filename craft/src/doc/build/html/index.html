@@ -1,0 +1,968 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to Craft toolbox’s documentation! &mdash; Craft toolbox a1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Craft toolbox a1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">Craft toolbox a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-craft-toolbox-s-documentation">
+<h1>Welcome to Craft toolbox&#8217;s documentation!<a class="headerlink" href="#welcome-to-craft-toolbox-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents: this toolbox is build to analysed ouput from CraFT code. It use some folders organisation in the path which is discribe here in the documentation</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="module-runcraft">
+<span id="craft-run-toolbox"></span><h1>CraFT run Toolbox<a class="headerlink" href="#module-runcraft" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-runcraft"></span><p>Created on 30 sept. 2015
+Toolbox to treat data from one run experiment using CraFT</p>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="runcraft.runcraft">
+<em class="property">class </em><tt class="descclassname">runcraft.</tt><tt class="descname">runcraft</tt><big>(</big><em>run_folder</em>, <em>time_data</em><big>)</big><a class="reference internal" href="_modules/runcraft.html#runcraft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#runcraft.runcraft" title="Permalink to this definition">¶</a></dt>
+<dd><p>The &#8216;run&#8217; CraFT folder is build as follow :
+an &#8216;output&#8217; folder where the output data from CraFT are store
+in the current folder you should find : <a href="#id1"><span class="problematic" id="id2">*</span></a>.in, <a href="#id3"><span class="problematic" id="id4">*</span></a>micro.vtk, <a href="#id5"><span class="problematic" id="id6">*</span></a>.phase, <a href="#id7"><span class="problematic" id="id8">*</span></a>.output, <a href="#id9"><span class="problematic" id="id10">*</span></a>.load</p>
+<p>This toolbox need over toolboxs :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">numpy</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Library:</th><td class="field-body">os</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">vtk</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Library:</th><td class="field-body">image2d</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Library:</th><td class="field-body">gammarun</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="runcraft.runcraft.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>run_folder</em>, <em>time_data</em><big>)</big><a class="reference internal" href="_modules/runcraft.html#runcraft.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#runcraft.runcraft.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build data for one CraFT run using <a href="#id11"><span class="problematic" id="id12">*</span></a>micro.vtk, <a href="#id13"><span class="problematic" id="id14">*</span></a>.phase, and data within &#8216;output&#8217; folder at time time_data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>run_folder</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; folder were the CraFT run is</li>
+<li><strong>time_data</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; time write one the name file</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">runcraft object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">runcraft</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>runcraft structure :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><a href="#id15"><span class="problematic" id="id16">*</span></a>.grainID : is an &#8216;image2d&#8217; with one value per grains</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Element:</th><td class="field-body"><a href="#id17"><span class="problematic" id="id18">*</span></a>.orientation : is an &#8216;array&#8217; with 4 column (id,phi1,phi,phi2)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><a href="#id19"><span class="problematic" id="id20">*</span></a>.strain : is an &#8216;symetricTensorMap&#8217; for the time time_data</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Element:</th><td class="field-body"><a href="#id21"><span class="problematic" id="id22">*</span></a>.stress : is an &#8216;symetricTensorMap&#8217; for the time time_data</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="runcraft.runcraft.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#runcraft.runcraft.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="runcraft.runcraft.elstrain">
+<tt class="descname">elstrain</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/runcraft.html#runcraft.elstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#runcraft.runcraft.elstrain" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">elastique strain E:sigma</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">FALSE need to rotate E in the lattice crystal for each grain (27/01/2016)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="runcraft.runcraft.strain_energy">
+<tt class="descname">strain_energy</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/runcraft.html#runcraft.strain_energy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#runcraft.runcraft.strain_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strain energy map compute as : w=e_ij*s_ij (Einstein notation)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">w strain energy map</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-multiruncraft">
+<span id="multi-craft-run-toolbox"></span><h1>Multi CraFT run Toolbox<a class="headerlink" href="#module-multiruncraft" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-multiruncraft"></span><p>Created on 30 sept. 2015
+Toolbox to treat data from multiple run experiment using CraFT</p>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="multiruncraft.multiruncraft">
+<em class="property">class </em><tt class="descclassname">multiruncraft.</tt><tt class="descname">multiruncraft</tt><big>(</big><em>adr_folder</em>, <em>time_data</em>, <em>folder_init</em><big>)</big><a class="reference internal" href="_modules/multiruncraft.html#multiruncraft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multiruncraft.multiruncraft" title="Permalink to this definition">¶</a></dt>
+<dd><p>This toolbox need over toolboxs :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">os</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Library:</th><td class="field-body">runcraft</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="multiruncraft.multiruncraft.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>adr_folder</em>, <em>time_data</em>, <em>folder_init</em><big>)</big><a class="reference internal" href="_modules/multiruncraft.html#multiruncraft.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multiruncraft.multiruncraft.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the object multiruncraft</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>adr_folder</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to the folder were all the run are present</li>
+<li><strong>time_data</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; suffix of one vtk file you want analyse</li>
+<li><strong>folder_init</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; folder where is the run of the initial state you want campare with</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">multiruncraft object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">multiruncraft</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>symetricTensorMap structure :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><a href="#id23"><span class="problematic" id="id24">*</span></a>.run : list with n &#8216;runcraft&#8217; object (n=number of craft run)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Element:</th><td class="field-body"><a href="#id25"><span class="problematic" id="id26">*</span></a>.init : the initial craft run you want compare with</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">inside adr_folder the structure should be for each run you find a &#8220;runi&#8221; folder with inside this a &#8216;output&#8217; folder were the CraFT output are.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="multiruncraft.multiruncraft.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#multiruncraft.multiruncraft.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="multiruncraft.multiruncraft.info">
+<tt class="descname">info</tt><big>(</big><em>selectGrain=False</em>, <em>ngId=0</em><big>)</big><a class="reference internal" href="_modules/multiruncraft.html#multiruncraft.info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multiruncraft.multiruncraft.info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Give info about the number of differents orientations tested. What are these orientations ? And what is the GrainId of the new grain.
+If no option are pass there is two option. 1- If the ngId is equal to the maxId of the init micro + 1, it take it as a new grain. 2- If not, it ask the user which is the ngId.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>selectGrain</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; User select the new grain by clic on the microstructure (default False)</li>
+<li><strong>ngId</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; User give the new grainId directly</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">ngId: the new grain Id</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tested_ori: The orientation for the new grain tested with CraFT</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="multiruncraft.multiruncraft.plotpdf">
+<tt class="descname">plotpdf</tt><big>(</big><em>option</em>, <em>mask=0</em>, <em>selectGrain=False</em>, <em>ngId=0</em>, <em>norm=False</em><big>)</big><a class="reference internal" href="_modules/multiruncraft.html#multiruncraft.plotpdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#multiruncraft.multiruncraft.plotpdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot pole figure data of the option wanted using a mask if necessary
+By default the new grain ID ngId is the maxId(init data)+1 (see .info)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>option</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; a runcraft image2d link (exemple : &#8216;strain.t22&#8217; or &#8216;stress.t11&#8217; or &#8216;strain.eqtensor2d()&#8217; or &#8216;strain_energie()&#8217;)</li>
+<li><strong>mask</strong> (<a class="reference internal" href="#module-image2d" title="image2d"><em>image2d</em></a>) &#8211; </li>
+<li><strong>selectGrain</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; User select the new grain by clic on the microstructure (default False)</li>
+<li><strong>ngId</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; User give the new grainId directly</li>
+<li><strong>norm</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; normalized value by mean(strain.t22)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">maxori is the line of the orientation output from .info function for which the data plot are maximal</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">int</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">minori is the line of the orientation output from .info function for which the data plot are minimum</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-plotpdf_craft">
+<span id="other-functions"></span><h1>Other functions<a class="headerlink" href="#module-plotpdf_craft" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="plotpdf_craft.fmt">
+<tt class="descclassname">plotpdf_craft.</tt><tt class="descname">fmt</tt><big>(</big><em>x</em>, <em>pos</em><big>)</big><a class="reference internal" href="_modules/plotpdf_craft.html#fmt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plotpdf_craft.fmt" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to format tick in the figure as x*10^y</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="plotpdf_craft.plotpdf_craft">
+<tt class="descclassname">plotpdf_craft.</tt><tt class="descname">plotpdf_craft</tt><big>(</big><em>phi1</em>, <em>phi</em>, <em>color</em>, <em>colorbarcenter=True</em><big>)</big><a class="reference internal" href="_modules/plotpdf_craft.html#plotpdf_craft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plotpdf_craft.plotpdf_craft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot on the pole figure at each phi1,phi given, the associated color value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>phi1</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; phi1 Bunge Euler angle</li>
+<li><strong>phi</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; phi Bunge Euler angle</li>
+<li><strong>color</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; array of value</li>
+<li><strong>colorbarcenter</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; do you want center the colorbar around 0</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="other-object-defined">
+<h1>Other object defined<a class="headerlink" href="#other-object-defined" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-symetricTensorMap">
+<span id="symetrictensormap"></span><h2>symetricTensorMap<a class="headerlink" href="#module-symetricTensorMap" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-symetricTensorMap"></span><p>Created on 21 oct. 2015
+This class defined map of symetric def positive tensor map.</p>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="symetricTensorMap.symetricTensorMap">
+<em class="property">class </em><tt class="descclassname">symetricTensorMap.</tt><tt class="descname">symetricTensorMap</tt><big>(</big><em>t11</em>, <em>t22</em>, <em>t33</em>, <em>t12</em>, <em>t13</em>, <em>t23</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class defined map of symetric def positive tensor map.</p>
+<p>This toolbox is running on python and need various packages :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.__add__">
+<tt class="descname">__add__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the sum of two map tensor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>t11</em>, <em>t22</em>, <em>t33</em>, <em>t12</em>, <em>t13</em>, <em>t23</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build symetricTensorMap object with 6 map (image2d object)</p>
+<dl class="docutils">
+<dt>t11 t12 t13</dt>
+<dd><dl class="first last docutils">
+<dt>t22 t23</dt>
+<dd>t33</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tii</strong> (<a class="reference internal" href="#module-image2d" title="image2d"><em>image2d</em></a>) &#8211; map of tii composante</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">symetricTensorMap object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+<p>symetricTensorMap structure :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><a href="#id27"><span class="problematic" id="id28">*</span></a>.tii : 6 &#8216;image2d&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.__mul__">
+<tt class="descname">__mul__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the multiplication pixel by pixel of two map tensor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="symetricTensorMap.symetricTensorMap.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.diag">
+<tt class="descname">diag</tt><big>(</big><em>twod=True</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.diag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.diag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diagonalisation of the symetricTensorMap</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>twod</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; use a 2d symetric tensor (=&gt; t33=t23=t13=0) (default True)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a, eigenvalue dim(3*n*m) where n*m is the dimension of the map (self.t11.field.shape)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array (3*n*m)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">v, eigenvector dim(3*3*n*m) where n*m is the dimension of the map (self.t11.field.shape)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array (3*n*m)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the eigenvector v(:,k,n,m) is associated to the eigenvalue a(k,n,m)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.eqVonMises">
+<tt class="descname">eqVonMises</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.eqVonMises"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.eqVonMises" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Von Mises equivalent norm of the tensor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Von Mises equivalent norm (2/3*eij*eij)^0.5</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.eqtensor2d">
+<tt class="descname">eqtensor2d</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.eqtensor2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.eqtensor2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the equivalent norm of the tensor as it is a 2D mesurement</p>
+<p>teq=sqrt(2/3*(t11^2+t22^2+2*t12^2))</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">equivalent norm as it is a 2d measurement</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.principal_tensor">
+<tt class="descname">principal_tensor</tt><big>(</big><em>scale=100</em>, <em>space=5</em>, <em>twod=False</em>, <em>absolutemax=False</em>, <em>colorbarcenter=True</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.principal_tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.principal_tensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the principal tensor direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>scale</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; scale of the arrow (default 100)</li>
+<li><strong>space</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; take only 1 value every &#8216;space&#8217; value to not charge the picture to much (default 5)</li>
+<li><strong>twod</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; use a 2d symetric tensor (=&gt; t33=t23=t13=0) (default False)</li>
+<li><strong>colorbarcenter</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; do you want center the colorbar around 0</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image of the principal tensor direction</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">matplotlib.pyplot</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gammarun">
+<span id="gammarun"></span><h2>gammarun<a class="headerlink" href="#module-gammarun" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-gammarun"></span><p>Created on 26 jan. 2016
+This class is build to use gamma output from CraFT</p>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="gammarun.gammarun">
+<em class="property">class </em><tt class="descclassname">gammarun.</tt><tt class="descname">gammarun</tt><big>(</big><em>g1</em>, <em>g2</em>, <em>g3</em>, <em>g4</em>, <em>g5</em>, <em>g6</em>, <em>g7</em>, <em>g8</em>, <em>g9</em>, <em>g10</em>, <em>g11</em>, <em>g12</em><big>)</big><a class="reference internal" href="_modules/gammarun.html#gammarun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gammarun.gammarun" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class defined gamma structure for CraFT output.</p>
+<p>This toolbox is running on python and need various packages :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">numpy</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Library:</th><td class="field-body">image2d</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">gammamap</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="gammarun.gammarun.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>g1</em>, <em>g2</em>, <em>g3</em>, <em>g4</em>, <em>g5</em>, <em>g6</em>, <em>g7</em>, <em>g8</em>, <em>g9</em>, <em>g10</em>, <em>g11</em>, <em>g12</em><big>)</big><a class="reference internal" href="_modules/gammarun.html#gammarun.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gammarun.gammarun.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build gamma object with 12 map (image2d object)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>gi</strong> (<a class="reference internal" href="#module-image2d" title="image2d"><em>image2d</em></a>) &#8211; map of gi</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">gamma object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">gamma</td>
+</tr>
+</tbody>
+</table>
+<p>gamma structure :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><a href="#id29"><span class="problematic" id="id30">*</span></a>.gi : 12 &#8216;image2d&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gammarun.gammarun.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#gammarun.gammarun.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gammarun.gammarun.vpstrain">
+<tt class="descname">vpstrain</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gammarun.html#gammarun.vpstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gammarun.gammarun.vpstrain" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">viscoplastic strain sum other all the slip system</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-gammamap">
+<span id="gammamap"></span><h2>gammamap<a class="headerlink" href="#module-gammamap" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-gammarun"></span><p>Created on 27 jan. 2016
+This class is build to build gamma map</p>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="gammamap.gammamap">
+<em class="property">class </em><tt class="descclassname">gammamap.</tt><tt class="descname">gammamap</tt><big>(</big><em>map</em>, <em>burger</em>, <em>plane</em><big>)</big><a class="reference internal" href="_modules/gammamap.html#gammamap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gammamap.gammamap" title="Permalink to this definition">¶</a></dt>
+<dd><p>This toolbox is building a gamma map</p>
+<p>This toolbox is running on python and need various packages :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="gammamap.gammamap.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>map</em>, <em>burger</em>, <em>plane</em><big>)</big><a class="reference internal" href="_modules/gammamap.html#gammamap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gammamap.gammamap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>map</strong> (<a class="reference internal" href="#module-image2d" title="image2d"><em>image2d</em></a>) &#8211; output map from CraFT</li>
+<li><strong>burger</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; burger vector of the slip system</li>
+<li><strong>plane</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; normal vector of the plane of the slip system</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">gammamap object with &#8216;.map&#8217; (output from CraFT), &#8216;.b&#8217; burger vector &#8216;.plane&#8217; planver vector of the slip system</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">gammamap</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="gammamap.gammamap.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#gammamap.gammamap.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gammamap.gammamap.schmidtensor">
+<tt class="descname">schmidtensor</tt><big>(</big><em>sTM=False</em><big>)</big><a class="reference internal" href="_modules/gammamap.html#gammamap.schmidtensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gammamap.gammamap.schmidtensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the schmidtensor 1/2*(b*plane+plane*b)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sTM</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; if you want the schmid tensor return under a symetric tensor map</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">array 3*3</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array or symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gammamap.gammamap.vpstrain">
+<tt class="descname">vpstrain</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/gammamap.html#gammamap.vpstrain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gammamap.gammamap.vpstrain" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">viscoplastic strain of the slip system</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-image2d">
+<span id="image2d"></span><h2>image2d<a class="headerlink" href="#module-image2d" title="Permalink to this headline">¶</a></h2>
+<p>Created on 3 juil. 2015</p>
+<p>image2d is a class used to manipulate image under matrix shape and to do the analyses on the picture</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It has been build to manipulate both aita data and dic data</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">As all function are applicable to aita and dic data, please be careful of the meaning of what you are doing depending of the input data used !</p>
+</div>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="image2d.image2d">
+<em class="property">class </em><tt class="descclassname">image2d.</tt><tt class="descname">image2d</tt><big>(</big><em>field</em>, <em>resolution</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>image2d is a class for map of scalar data</p>
+<dl class="method">
+<dt id="image2d.image2d.__add__">
+<tt class="descname">__add__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum of 2 maps</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__div__">
+<tt class="descname">__div__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__div__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__div__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide self by other case by case</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>field</em>, <em>resolution</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor : field is a matrix and resolution is the step size in mm</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>field</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; tabular of scalar data</li>
+<li><strong>resolution</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; step size resolution (millimeters)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__mul__">
+<tt class="descname">__mul__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiply case by case</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__sub__">
+<tt class="descname">__sub__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__sub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__sub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract of 2 maps</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="image2d.image2d.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#image2d.image2d.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.diff">
+<tt class="descname">diff</tt><big>(</big><em>axis</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Derive the image along the axis define</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axis</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; &#8216;x&#8217; to do du/dx or &#8216;y&#8217; to do du/dy</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">differential of the map in respect to the &#8216;axis&#8217; wanted</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">&#8216;x&#8217; axis is left to right and &#8216;y&#8217; is bottom to top direction</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.grain_label">
+<tt class="descname">grain_label</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.grain_label"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.grain_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Label area in a black and white picture</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">black color for the background and white color for the boundary</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.imresize">
+<tt class="descname">imresize</tt><big>(</big><em>res</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.imresize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.imresize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize the image with nearest interpolation to have a pixel of the length given in res</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>res</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; new resolution map wanted (millimeters)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.mask_build">
+<tt class="descname">mask_build</tt><big>(</big><em>r=0</em>, <em>grainId=[]</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.mask_build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.mask_build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a mask map with NaN value where you don&#8217;t want data and one were you want
+The default mask is a circle of center you choose and radius you define.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>r</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; radius of the circle, If r=0 you clic of each of grain you want</li>
+<li><strong>grainId</strong> &#8211; You select the grainId you want in an array</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first">array</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mask</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">image2d</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if you want applied a mask one your data just do data*mask where data is an image2d object</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.plot">
+<tt class="descname">plot</tt><big>(</big><em>vmin=nan</em>, <em>vmax=nan</em>, <em>colorbarcenter=False</em>, <em>colorbar=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x7f83f0155bd0&gt;</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the image2d</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vmin</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; minimum value for the colorbar</li>
+<li><strong>vmax</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; maximun value for the colorbar</li>
+<li><strong>colorbarcenter</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; do you want center the colorbar around 0</li>
+<li><strong>colorbar</strong> &#8211; colorbar from matplotlib.cm</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">colorbar : cm.jet for eqstrain-stress</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.plotBoundary">
+<tt class="descname">plotBoundary</tt><big>(</big><em>dilatation=0</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.plotBoundary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.plotBoundary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add boundary to the figure</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dilatation</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of iteration for the dilation of 1 value - used this to make larger the boundaries (default 2)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Exemple:</th><td class="field-body"><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">phi1</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">plotBoundary</span><span class="p">(</span><span class="n">dilatation</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">plot only the value of the pixel equal at 1</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.pow">
+<tt class="descname">pow</tt><big>(</big><em>nb</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.pow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.pow" title="Permalink to this definition">¶</a></dt>
+<dd><p>map power nb</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nb</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.skeleton">
+<tt class="descname">skeleton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.skeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.skeleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skeletonized a label map build by grain_label</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to Craft toolbox&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#module-runcraft">CraFT run Toolbox</a></li>
+<li><a class="reference internal" href="#module-multiruncraft">Multi CraFT run Toolbox</a></li>
+<li><a class="reference internal" href="#module-plotpdf_craft">Other functions</a></li>
+<li><a class="reference internal" href="#other-object-defined">Other object defined</a><ul>
+<li><a class="reference internal" href="#module-symetricTensorMap">symetricTensorMap</a></li>
+<li><a class="reference internal" href="#module-gammarun">gammarun</a></li>
+<li><a class="reference internal" href="#module-gammamap">gammamap</a></li>
+<li><a class="reference internal" href="#module-image2d">image2d</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">Craft toolbox a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Thomas Chauve.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

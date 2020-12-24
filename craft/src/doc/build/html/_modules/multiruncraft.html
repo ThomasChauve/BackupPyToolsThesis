@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>multiruncraft &mdash; Craft toolbox a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Craft toolbox a1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Craft toolbox a1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for multiruncraft</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">.. py:module:: multiruncraft</span>
+<span class="sd">Created on 30 sept. 2015</span>
+<span class="sd">Toolbox to treat data from multiple run experiment using CraFT</span>
+
+<span class="sd">@author: Thomas Chauve</span>
+<span class="sd">@contact: thomas.chauve@lgge.obs.ujf-grenoble.fr</span>
+<span class="sd">@license: CC-BY-CC</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">runcraft</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">plotpdf_craft</span>
+
+<div class="viewcode-block" id="multiruncraft"><a class="viewcode-back" href="../index.html#multiruncraft.multiruncraft">[docs]</a><span class="k">class</span> <span class="nc">multiruncraft</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    This toolbox need over toolboxs :</span>
+<span class="sd">    </span>
+<span class="sd">    :library: os</span>
+<span class="sd">    :library: runcraft</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+        
+<div class="viewcode-block" id="multiruncraft.__init__"><a class="viewcode-back" href="../index.html#multiruncraft.multiruncraft.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">adr_folder</span><span class="p">,</span><span class="n">time_data</span><span class="p">,</span><span class="n">folder_init</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Build the object multiruncraft</span>
+<span class="sd">        </span>
+<span class="sd">        :param adr_folder: path to the folder were all the run are present</span>
+<span class="sd">        :type adr_folder: str</span>
+<span class="sd">        :param time_data: suffix of one vtk file you want analyse</span>
+<span class="sd">        :type time_data: str</span>
+<span class="sd">        :param folder_init: folder where is the run of the initial state you want campare with</span>
+<span class="sd">        :type folder_init: str</span>
+<span class="sd">        :return: multiruncraft object</span>
+<span class="sd">        :rtype: multiruncraft</span>
+<span class="sd">        </span>
+<span class="sd">        symetricTensorMap structure :</span>
+<span class="sd">        </span>
+<span class="sd">        :element: *.run : list with n &#39;runcraft&#39; object (n=number of craft run)</span>
+<span class="sd">        :element: *.init : the initial craft run you want compare with </span>
+<span class="sd">        </span>
+<span class="sd">        .. warning:: inside adr_folder the structure should be for each run you find a &quot;runi&quot; folder with inside this a &#39;output&#39; folder were the CraFT output are.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c">#find current folder</span>
+        <span class="n">current</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+        <span class="c"># find the folder with &#39;run&#39; prefix within adr_folder</span>
+        <span class="n">folder</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">adr_folder</span><span class="p">)</span>
+        <span class="n">folder</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">run_folder</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">folder</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">folder</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;run&#39;</span><span class="p">):</span>
+                <span class="n">run_folder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">folder</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                
+        <span class="c"># loop on each folder (ie. run)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="o">=</span><span class="p">[]</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">run_folder</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">runcraft</span><span class="o">.</span><span class="n">runcraft</span><span class="p">(</span><span class="n">adr_folder</span><span class="o">+</span><span class="s">&#39;/&#39;</span><span class="o">+</span><span class="n">run_folder</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">time_data</span><span class="p">))</span>
+                   
+        <span class="c"># return in current folder   </span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+        
+        <span class="c"># open init data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="o">=</span><span class="n">runcraft</span><span class="o">.</span><span class="n">runcraft</span><span class="p">(</span><span class="n">folder_init</span><span class="p">,</span><span class="n">time_data</span><span class="p">)</span>
+        
+        <span class="k">return</span>
+        
+        </div>
+<div class="viewcode-block" id="multiruncraft.info"><a class="viewcode-back" href="../index.html#multiruncraft.multiruncraft.info">[docs]</a>    <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">selectGrain</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">ngId</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Give info about the number of differents orientations tested. What are these orientations ? And what is the GrainId of the new grain.</span>
+<span class="sd">        If no option are pass there is two option. 1- If the ngId is equal to the maxId of the init micro + 1, it take it as a new grain. 2- If not, it ask the user which is the ngId.</span>
+<span class="sd">        </span>
+<span class="sd">        :param selectGrain: User select the new grain by clic on the microstructure (default False)</span>
+<span class="sd">        :type selectGrain: bool</span>
+<span class="sd">        :param ngId: User give the new grainId directly</span>
+<span class="sd">        :type ngId: int</span>
+<span class="sd">        :return: ngId: the new grain Id</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :return: tested_ori: The orientation for the new grain tested with CraFT</span>
+<span class="sd">        :rtype: array</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c"># How many run with new grain ?</span>
+        <span class="n">nb_run</span><span class="o">=</span><span class="s">&#39;Number of orientation tested : &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">))</span>
+        <span class="k">print</span> <span class="n">nb_run</span>
+        
+        <span class="c"># Find what is the grain Id of the new grain</span>
+        <span class="k">if</span> <span class="n">ngId</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span> <span class="c"># if the grain Id is pass by the user you don&#39;t have to look</span>
+            <span class="n">maxgId</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">grainId</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+            <span class="n">ngId</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grainId</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+        
+            <span class="k">if</span> <span class="p">(</span><span class="n">maxgId</span><span class="o">!=</span><span class="n">ngId</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">selectGrain</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grainId</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;Clic to select the new grain :&#39;</span><span class="p">)</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">ginput</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grainId</span><span class="o">.</span><span class="n">res</span><span class="p">)</span>
+                <span class="n">ss</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grainId</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+                <span class="n">ngId</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grainId</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="c"># print the new grain Id    </span>
+        <span class="n">maxngId</span><span class="o">=</span><span class="s">&#39;New grainId : &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">ngId</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">maxngId</span>
+        
+        <span class="c"># look for phi1 phi phi2 of the new grain orientation tested</span>
+        <span class="c"># where is the new grain in the array</span>
+        <span class="n">wid</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">orientation</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">ngId</span><span class="p">)</span>
+        <span class="n">tested_ori</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">),</span><span class="mi">3</span><span class="p">])</span>
+       
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">)):</span>
+            <span class="n">tested_ori</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">orientation</span><span class="p">[</span><span class="n">wid</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+            
+        <span class="k">return</span> <span class="n">ngId</span><span class="p">,</span><span class="n">tested_ori</span>
+    </div>
+<div class="viewcode-block" id="multiruncraft.plotpdf"><a class="viewcode-back" href="../index.html#multiruncraft.multiruncraft.plotpdf">[docs]</a>    <span class="k">def</span> <span class="nf">plotpdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">option</span><span class="p">,</span><span class="n">mask</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">selectGrain</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">ngId</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">norm</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Plot pole figure data of the option wanted using a mask if necessary</span>
+<span class="sd">        By default the new grain ID ngId is the maxId(init data)+1 (see .info)</span>
+<span class="sd">        </span>
+<span class="sd">        :param option: a runcraft image2d link (exemple : &#39;strain.t22&#39; or &#39;stress.t11&#39; or &#39;strain.eqtensor2d()&#39; or &#39;strain_energie()&#39;)</span>
+<span class="sd">        :type option: str</span>
+<span class="sd">        :param mask:</span>
+<span class="sd">        :type mask: image2d</span>
+<span class="sd">        :param selectGrain: User select the new grain by clic on the microstructure (default False)</span>
+<span class="sd">        :type selectGrain: bool</span>
+<span class="sd">        :param ngId: User give the new grainId directly</span>
+<span class="sd">        :type ngId: int</span>
+<span class="sd">        :param norm: normalized value by mean(strain.t22)</span>
+<span class="sd">        :type norm: bool</span>
+<span class="sd">        :return: maxori is the line of the orientation output from .info function for which the data plot are maximal</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :return: minori is the line of the orientation output from .info function for which the data plot are minimum</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">mask</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">opt</span><span class="o">=</span><span class="n">option</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">opt</span><span class="o">=</span><span class="n">option</span><span class="o">+</span><span class="s">&#39;*mask&#39;</span>
+        
+        <span class="c"># compute the mean of the variable wanted for each run with a new grains</span>
+        <span class="n">res</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">)))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">))):</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s">&#39;self.ng_run[i].&#39;</span><span class="o">+</span><span class="n">opt</span><span class="p">)</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+            
+        <span class="c"># compute the mean of the variable wanted for the initial run (without new grain)    </span>
+        <span class="n">res_ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="s">&#39;self.init.&#39;</span><span class="o">+</span><span class="n">opt</span><span class="p">)</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+        
+        <span class="c"># load the orientation info</span>
+        <span class="n">ngId</span><span class="p">,</span><span class="n">ori</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">selectGrain</span><span class="p">,</span> <span class="n">ngId</span><span class="p">)</span>
+        
+        <span class="c"># plot the pole figure</span>
+        <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
+            <span class="n">nn</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">))):</span>
+                <span class="n">nn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ng_run</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">strain</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+            <span class="n">ni</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">strain</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">res</span><span class="o">/</span><span class="n">nn</span><span class="o">-</span><span class="n">res_ref</span><span class="o">/</span><span class="n">ni</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">res</span><span class="o">-</span><span class="n">res_ref</span>
+        <span class="n">plotpdf_craft</span><span class="o">.</span><span class="n">plotpdf_craft</span><span class="p">(</span><span class="n">ori</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">ori</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="p">)</span>
+        
+        <span class="n">maxori</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">color</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">color</span><span class="p">))</span>
+        <span class="n">minori</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">color</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">color</span><span class="p">))</span>
+        
+        <span class="k">return</span> <span class="n">maxori</span><span class="p">,</span> <span class="n">minori</span>
+        
+        </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Craft toolbox a1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Thomas Chauve.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>runcraft &mdash; Craft toolbox a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     'a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Craft toolbox a1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Craft toolbox a1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for runcraft</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">.. py:module:: runcraft</span>
+<span class="sd">Created on 30 sept. 2015</span>
+<span class="sd">Toolbox to treat data from one run experiment using CraFT</span>
+
+<span class="sd">@author: Thomas Chauve</span>
+<span class="sd">@contact: thomas.chauve@lgge.obs.ujf-grenoble.fr</span>
+<span class="sd">@license: CC-BY-CC</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">vtk</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">vtk.util.numpy_support</span> <span class="kn">import</span> <span class="n">vtk_to_numpy</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">symetricTensorMap</span>
+<span class="kn">import</span> <span class="nn">image2d</span>
+<span class="kn">import</span> <span class="nn">gammarun</span>
+
+<div class="viewcode-block" id="runcraft"><a class="viewcode-back" href="../index.html#runcraft.runcraft">[docs]</a><span class="k">class</span> <span class="nc">runcraft</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    The &#39;run&#39; CraFT folder is build as follow :</span>
+<span class="sd">    an &#39;output&#39; folder where the output data from CraFT are store</span>
+<span class="sd">    in the current folder you should find : *.in, *micro.vtk, *.phase, *.output, *.load  </span>
+<span class="sd">    </span>
+<span class="sd">    This toolbox need over toolboxs :</span>
+<span class="sd">    </span>
+<span class="sd">    :library: numpy</span>
+<span class="sd">    :library: os</span>
+<span class="sd">    :library: vtk</span>
+<span class="sd">    :library: image2d</span>
+<span class="sd">    :library: symetricTensorMap</span>
+<span class="sd">    :library: gammarun</span>
+<span class="sd">    </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+    
+<div class="viewcode-block" id="runcraft.__init__"><a class="viewcode-back" href="../index.html#runcraft.runcraft.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">run_folder</span><span class="p">,</span><span class="n">time_data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Build data for one CraFT run using *micro.vtk, *.phase, and data within &#39;output&#39; folder at time time_data</span>
+<span class="sd">        </span>
+<span class="sd">        :param run_folder: folder were the CraFT run is</span>
+<span class="sd">        :type run_folder: str</span>
+<span class="sd">        :param time_data: time write one the name file</span>
+<span class="sd">        :type time_data: str</span>
+<span class="sd">        :return: runcraft object</span>
+<span class="sd">        :rtype: runcraft</span>
+<span class="sd">        </span>
+<span class="sd">        runcraft structure :</span>
+<span class="sd">        </span>
+<span class="sd">        :element: *.grainID : is an &#39;image2d&#39; with one value per grains</span>
+<span class="sd">        :element: *.orientation : is an &#39;array&#39; with 4 column (id,phi1,phi,phi2)</span>
+<span class="sd">        :element: *.strain : is an &#39;symetricTensorMap&#39; for the time time_data </span>
+<span class="sd">        :element: *.stress : is an &#39;symetricTensorMap&#39; for the time time_data</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c"># set up the vtk reader     </span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">vtk</span><span class="o">.</span><span class="n">vtkDataSetReader</span><span class="p">()</span> 
+        <span class="c"># read the current folder</span>
+        <span class="n">current</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+        
+        <span class="c">######################</span>
+        <span class="c"># load microstrucure #</span>
+        <span class="c">######################</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">run_folder</span><span class="p">)</span>
+        <span class="c"># find name of the files</span>
+        <span class="n">data_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">run_folder</span><span class="p">)</span>
+        <span class="c"># get the microstructure</span>
+        <span class="c"># find &#39;vtk&#39; file</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_name</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="nb">len</span><span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span><span class="o">==</span><span class="s">&#39;.vtk&#39;</span><span class="p">):</span>
+                    <span class="n">nb</span><span class="o">=</span><span class="n">k</span>
+        <span class="c"># set up the name of the file wanted    </span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">SetFileName</span><span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">nb</span><span class="p">])</span>
+        <span class="c"># read the file</span>
+        <span class="n">reader</span><span class="o">.</span><span class="n">Update</span><span class="p">()</span>
+        <span class="c"># read the file output</span>
+        <span class="n">ug</span>  <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">GetOutput</span><span class="p">()</span>
+        <span class="c"># extract the resolution</span>
+        <span class="n">res</span><span class="o">=</span><span class="n">ug</span><span class="o">.</span><span class="n">GetSpacing</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c"># extract the matrix representing the map of this scalar</span>
+        <span class="nb">map</span><span class="o">=</span><span class="n">vtk_to_numpy</span><span class="p">(</span><span class="n">ug</span><span class="o">.</span><span class="n">GetPointData</span><span class="p">()</span><span class="o">.</span><span class="n">GetScalars</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">ug</span><span class="o">.</span><span class="n">GetDimensions</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">grainId</span><span class="o">=</span><span class="n">image2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="nb">map</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">res</span><span class="p">)</span>
+        
+        <span class="c">####################</span>
+        <span class="c"># load orientation #</span>
+        <span class="c">####################</span>
+        <span class="c"># find &#39;phase&#39; file</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_name</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="nb">len</span><span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">-</span><span class="mi">6</span><span class="p">:]</span><span class="o">==</span><span class="s">&#39;.phase&#39;</span><span class="p">):</span>
+                    <span class="n">nb</span><span class="o">=</span><span class="n">k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orientation</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">nb</span><span class="p">],</span><span class="n">unpack</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">dtype</span><span class="o">=</span><span class="s">&#39;f,f,f,f&#39;</span><span class="p">))</span>
+                  
+                    
+        <span class="c"># set data to extract</span>
+        <span class="c"># line with gamma</span>
+        <span class="n">wanted_data</span><span class="o">=</span><span class="p">[</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_strain11.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_strain12.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_strain13.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_strain22.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_strain23.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_strain33.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_stress11.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_stress12.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_stress13.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_stress22.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_stress23.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_stress33.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma01.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma02.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma03.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma04.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma05.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma06.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma07.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma08.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma09.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma10.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma11.vtk&#39;</span><span class="p">,</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma12.vtk&#39;</span><span class="p">]</span>
+        <span class="c"># line without gamma</span>
+        <span class="c"># wanted_data=[time_data+&#39;_strain11.vtk&#39;,time_data+&#39;_strain22.vtk&#39;,time_data+&#39;_strain33.vtk&#39;,time_data+&#39;_strain12.vtk&#39;,time_data+&#39;_strain13.vtk&#39;,time_data+&#39;_strain23.vtk&#39;,time_data+&#39;_stress11.vtk&#39;,time_data+&#39;_stress22.vtk&#39;,time_data+&#39;_stress33.vtk&#39;,time_data+&#39;_stress12.vtk&#39;,time_data+&#39;_stress13.vtk&#39;,time_data+&#39;_stress23.vtk&#39;]</span>
+             
+        <span class="c">###########################</span>
+        <span class="c"># load strain/stress data #</span>
+        <span class="c">###########################</span>
+        <span class="n">tmp</span><span class="o">=</span><span class="n">run_folder</span><span class="o">+</span><span class="s">&#39;/output&#39;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="c"># split data for stress, strain</span>
+        <span class="n">tmp_split</span><span class="o">=</span><span class="s">&#39;vtk_split *&#39;</span><span class="o">+</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_gamma.vtk&#39;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">tmp_split</span><span class="p">)</span>
+        <span class="n">tmp_split</span><span class="o">=</span><span class="s">&#39;vtk_split *&#39;</span><span class="o">+</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_strain.vtk&#39;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">tmp_split</span><span class="p">)</span>
+        <span class="n">tmp_split</span><span class="o">=</span><span class="s">&#39;vtk_split *&#39;</span><span class="o">+</span><span class="n">time_data</span><span class="o">+</span><span class="s">&#39;_stress.vtk&#39;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">tmp_split</span><span class="p">)</span>
+            
+        <span class="c"># find data name</span>
+        <span class="n">data_name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="c"># create self</span>
+        <span class="n">tmp_strain</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+        <span class="n">tmp_stress</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+        <span class="n">tmp_gamma</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wanted_data</span><span class="p">)):</span>
+            <span class="c"># find the name of the txt file wanted</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data_name</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="nb">len</span><span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">wanted_data</span><span class="p">[</span><span class="n">j</span><span class="p">]):]</span><span class="o">==</span><span class="n">wanted_data</span><span class="p">[</span><span class="n">j</span><span class="p">]):</span>
+                    <span class="n">nb</span><span class="o">=</span><span class="n">k</span>
+            <span class="c"># set up the name of the file wanted    </span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">SetFileName</span><span class="p">(</span><span class="n">data_name</span><span class="p">[</span><span class="n">nb</span><span class="p">])</span>
+            <span class="c"># read the file</span>
+            <span class="n">reader</span><span class="o">.</span><span class="n">Update</span><span class="p">()</span>
+            <span class="c"># read the file output</span>
+            <span class="n">ug</span>  <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">GetOutput</span><span class="p">()</span>
+            <span class="c"># extract the resolution</span>
+            <span class="n">res</span><span class="o">=</span><span class="n">ug</span><span class="o">.</span><span class="n">GetSpacing</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c"># extract the matrix representing the map of this scalar</span>
+            <span class="nb">map</span><span class="o">=</span><span class="n">vtk_to_numpy</span><span class="p">(</span><span class="n">ug</span><span class="o">.</span><span class="n">GetPointData</span><span class="p">()</span><span class="o">.</span><span class="n">GetScalars</span><span class="p">())</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">ug</span><span class="o">.</span><span class="n">GetDimensions</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+                
+            <span class="c"># make the difference between strain and stress</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                <span class="n">tmp_strain</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">image2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="nb">map</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">res</span><span class="p">)</span> 
+            <span class="k">elif</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">):</span>
+                <span class="n">tmp_stress</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span><span class="n">image2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="nb">map</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">res</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">):</span>
+                <span class="n">tmp_gamma</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">12</span><span class="p">]</span><span class="o">=</span><span class="n">image2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="nb">map</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">res</span><span class="p">)</span>             
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&#39;error 01 : too much map&#39;</span><span class="p">)</span>
+        
+        <span class="c"># Build symetricTensorMap for strain and stress            </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="o">=</span><span class="n">symetricTensorMap</span><span class="o">.</span><span class="n">symetricTensorMap</span><span class="p">(</span><span class="n">tmp_strain</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">tmp_strain</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">tmp_strain</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">tmp_strain</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">tmp_strain</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="n">tmp_strain</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">=</span><span class="n">symetricTensorMap</span><span class="o">.</span><span class="n">symetricTensorMap</span><span class="p">(</span><span class="n">tmp_stress</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">tmp_stress</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">tmp_stress</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">tmp_stress</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">tmp_stress</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="n">tmp_stress</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span>
+        <span class="c"># Build gamma map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span><span class="o">=</span><span class="n">gammarun</span><span class="o">.</span><span class="n">gammarun</span><span class="p">(</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span><span class="n">tmp_gamma</span><span class="p">[</span><span class="mi">11</span><span class="p">])</span>
+
+        <span class="c"># remove split file</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">&#39;rm *strain1*.vtk *strain2*.vtk *stress1*.vtk *stress2*.vtk *33.vtk *gamma0*.vtk *gamma1*.vtk&#39;</span><span class="p">)</span>
+            
+        <span class="c"># return in the current folder</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">current</span><span class="p">)</span>
+        
+        <span class="k">return</span>
+    </div>
+<div class="viewcode-block" id="runcraft.strain_energy"><a class="viewcode-back" href="../index.html#runcraft.runcraft.strain_energy">[docs]</a>    <span class="k">def</span> <span class="nf">strain_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Strain energy map compute as : w=e_ij*s_ij (Einstein notation)</span>
+<span class="sd">        </span>
+<span class="sd">        :return: w strain energy map</span>
+<span class="sd">        :rtype: image2d</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">tmp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span>
+        
+        <span class="k">return</span> <span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">t11</span><span class="o">+</span><span class="n">tmp</span><span class="o">.</span><span class="n">t22</span><span class="o">+</span><span class="n">tmp</span><span class="o">.</span><span class="n">t33</span><span class="o">+</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">t12</span><span class="o">+</span><span class="n">tmp</span><span class="o">.</span><span class="n">t13</span><span class="o">+</span><span class="n">tmp</span><span class="o">.</span><span class="n">t23</span><span class="p">)</span><span class="o">*</span><span class="mf">2.</span><span class="p">)</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">2.</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="runcraft.elstrain"><a class="viewcode-back" href="../index.html#runcraft.runcraft.elstrain">[docs]</a>    <span class="k">def</span> <span class="nf">elstrain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        :return: elastique strain E:sigma</span>
+<span class="sd">        :rtype: symetricTensorMap</span>
+<span class="sd">        </span>
+<span class="sd">        .. warning:: FALSE need to rotate E in the lattice crystal for each grain (27/01/2016)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">L</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">([[</span> <span class="mf">13930.</span><span class="p">,</span><span class="mf">7082.</span><span class="p">,</span><span class="mf">5765.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">7082.</span><span class="p">,</span><span class="mf">13930.</span><span class="p">,</span><span class="mf">5765.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">5765.</span><span class="p">,</span><span class="mf">5765.</span><span class="p">,</span><span class="mf">15010.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">6028.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">6028.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">6848.</span><span class="p">]])</span>
+        <span class="n">E</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+        
+        
+        <span class="n">e</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+            <span class="n">e</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">t11</span><span class="o">*</span><span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">t22</span><span class="o">*</span><span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">t33</span><span class="o">*</span><span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">t23</span><span class="o">*</span><span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">t13</span><span class="o">*</span><span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">stress</span><span class="o">.</span><span class="n">t12</span><span class="o">*</span><span class="n">E</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+            
+        <span class="k">return</span> <span class="n">symetricTensorMap</span><span class="o">.</span><span class="n">symetricTensorMap</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+            </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">Craft toolbox a1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Thomas Chauve.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

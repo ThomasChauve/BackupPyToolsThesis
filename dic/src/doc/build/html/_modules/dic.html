@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>dic &mdash; DIC toolbox 0.1a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DIC toolbox 0.1a1 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">DIC toolbox 0.1a1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for dic</h1><div class="highlight"><pre>
+<span class="c"># -*- coding: utf-8 -*-</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on 21 août 2015</span>
+
+<span class="sd">.. py:module:: dic</span>
+
+<span class="sd">Toolbox for data obtained using 7D software create by Pierre Vacher</span>
+<span class="sd">7D software is software to perform Digital Image Correlation (DIC). This toolbox is used to analysed the data export from 7D software by using the exportation by &#39;txt&gt;&gt;gdr&#39;</span>
+
+<span class="sd">.. warning:: In 7D version 0.9.5.178 there is a mistake during the expoprtation using &#39;txt&gt;&gt;gdr&#39; dy=-dy and exy=-exy. Use &#39;correct7Dgdr.py&#39; before using this toolbox</span>
+<span class="sd">.. note:: if you want reduce the error due to the DIC process by doing the mean of multiple output, please refers to &#39;mean7Dgdr.py&#39;</span>
+
+<span class="sd">@author: Thomas Chauve</span>
+<span class="sd">@contact: thomas.chauve@lgge.obs.ujf-grenoble.fr</span>
+<span class="sd">@license: CC-BY-CC</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">import</span> <span class="nn">aita</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <span class="n">io</span>
+<span class="kn">import</span> <span class="nn">image2d</span> <span class="kn">as</span> <span class="nn">im2d</span>
+<span class="kn">import</span> <span class="nn">micro2d</span> <span class="kn">as</span> <span class="nn">mi2d</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pylab</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">symetricTensorMap</span> <span class="kn">as</span> <span class="nn">sTM</span>
+<span class="kn">from</span> <span class="nn">moviepy.video.io.bindings</span> <span class="kn">import</span> <span class="n">mplfig_to_npimage</span>
+<span class="kn">import</span> <span class="nn">moviepy.editor</span> <span class="kn">as</span> <span class="nn">mpy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="kn">as</span> <span class="nn">cm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="kn">as</span> <span class="nn">patches</span>
+
+<div class="viewcode-block" id="dic"><a class="viewcode-back" href="../index.html#dic.dic">[docs]</a><span class="k">class</span> <span class="nc">dic</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    &#39;dic&#39; is a python class to analyse data from 2D digital image correlation</span>
+<span class="sd">    </span>
+<span class="sd">    .. note:: this toolbox is build to work with the output from 7D using txt&gt;&gt;gdr export   </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="dic.__init__"><a class="viewcode-back" href="../index.html#dic.dic.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adr_data</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">adr_micro</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        :param adr_data: folder path where the 7D output are store</span>
+<span class="sd">        :type adr_data: str</span>
+<span class="sd">        :param resolution: pixel size of the image used for DIC (millimeters)</span>
+<span class="sd">        :type resolution: float</span>
+<span class="sd">        :param time_step: time step between the picture (seconds)</span>
+<span class="sd">        :type time_step: float</span>
+<span class="sd">        :param adr_micro: path for the black and white skeleton of the microstructure (bmp format) (default 0 - no microstructure)</span>
+<span class="sd">        :type adr_micro: str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c"># include time_step in the object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="o">=</span><span class="n">time_step</span>
+                
+        <span class="c"># find out file from 7D</span>
+        <span class="n">output</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">adr_data</span><span class="p">)</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="c"># loop on all the output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">=</span><span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">=</span><span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="o">=</span><span class="p">[]</span>
+        <span class="c">#self.exx=[]</span>
+        <span class="c">#self.eyy=[]</span>
+        <span class="c">#self.exy=[]</span>
+        <span class="c">#self.eeq=[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">oxy</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output</span><span class="p">))):</span>
+            <span class="c"># load the file</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">adr_data</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="c"># find not indexed point</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">4</span><span class="p">]</span><span class="o">!=</span><span class="mf">0.0</span><span class="p">)</span>
+            <span class="c"># replace not indexed point by NaN value</span>
+            <span class="n">data</span><span class="p">[</span><span class="nb">id</span><span class="p">,</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+            <span class="n">data</span><span class="p">[</span><span class="nb">id</span><span class="p">,</span><span class="mi">5</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+            <span class="c"># for the first step it extract size sx,sy and window correlation value used in 7D</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                <span class="n">n_dic</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">nb_pix</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">sx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">data</span><span class="p">[</span><span class="n">nb_pix</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">n_dic</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">sy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">data</span><span class="p">[</span><span class="n">nb_pix</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">n_dic</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c"># Build image at time t=i</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">resolution</span><span class="p">,[</span><span class="n">sx</span><span class="p">,</span><span class="n">sy</span><span class="p">])),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">resolution</span><span class="p">,[</span><span class="n">sx</span><span class="p">,</span><span class="n">sy</span><span class="p">])),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">))</span>
+            <span class="c">#self.exx.append(im2d.image2d(np.transpose(np.reshape(data[:,5],[sx,sy])),n_dic*resolution))</span>
+            <span class="c">#self.eyy.append(im2d.image2d(np.transpose(np.reshape(data[:,6],[sx,sy])),n_dic*resolution))</span>
+            <span class="c">#self.exy.append(im2d.image2d(np.transpose(np.reshape(data[:,7],[sx,sy])),n_dic*resolution))</span>
+            <span class="c">#slef.eeq.append((self.exx[i].pow(2)+self.eyy[i].pow(2)+self.exy[i].pow(2)*2.)*(2./3.).pow(1/2))</span>
+            <span class="n">exx</span><span class="o">=</span><span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">5</span><span class="p">],[</span><span class="n">sx</span><span class="p">,</span><span class="n">sy</span><span class="p">])),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">)</span>
+            <span class="n">eyy</span><span class="o">=</span><span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">6</span><span class="p">],[</span><span class="n">sx</span><span class="p">,</span><span class="n">sy</span><span class="p">])),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">)</span>
+            <span class="n">exy</span><span class="o">=</span><span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">7</span><span class="p">],[</span><span class="n">sx</span><span class="p">,</span><span class="n">sy</span><span class="p">])),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">eaz</span><span class="o">=</span><span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">sy</span><span class="p">,</span><span class="n">sx</span><span class="p">]),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">)</span>
+                
+            <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sTM</span><span class="o">.</span><span class="n">symetricTensorMap</span><span class="p">(</span><span class="n">exx</span><span class="p">,</span><span class="n">eyy</span><span class="p">,</span><span class="n">eaz</span><span class="p">,</span><span class="n">exy</span><span class="p">,</span><span class="n">eaz</span><span class="p">,</span><span class="n">eaz</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">oxy</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">))</span><span class="o">*.</span><span class="mi">5</span><span class="p">)</span>
+        
+        <span class="n">minx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">n_dic</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">maxx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">n_dic</span><span class="p">)</span>
+        <span class="n">miny</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="o">-</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">n_dic</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">maxy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="o">-</span><span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">n_dic</span><span class="p">)</span>
+        
+        <span class="c"># open the microstructure</span>
+        <span class="k">if</span> <span class="n">adr_micro</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">=</span><span class="n">mi2d</span><span class="o">.</span><span class="n">micro2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">sy</span><span class="p">,</span><span class="n">sx</span><span class="p">]),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">micro_bmp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">adr_micro</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">=</span><span class="n">mi2d</span><span class="o">.</span><span class="n">micro2d</span><span class="p">(</span><span class="n">micro_bmp</span><span class="p">[</span><span class="n">miny</span><span class="p">:</span><span class="n">maxy</span><span class="p">,</span><span class="n">minx</span><span class="p">:</span><span class="n">maxx</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">micro_bmp</span><span class="p">),</span><span class="n">n_dic</span><span class="o">*</span><span class="n">resolution</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">grain_label</span><span class="p">()</span>
+        
+        <span class="c"># replace grains boundary with NaN number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">.</span><span class="n">field</span><span class="p">,</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">idx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">field</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        </div>
+<div class="viewcode-block" id="dic.crop"><a class="viewcode-back" href="../index.html#dic.dic.crop">[docs]</a>    <span class="k">def</span> <span class="nf">crop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Crop function to select the area of interest</span>
+<span class="sd">        </span>
+<span class="sd">        :return: crop dic object</span>
+<span class="sd">        :rtype: dic</span>
+<span class="sd">        :Exemple: &gt;&gt;&gt; data.crop()</span>
+<span class="sd">        </span>
+<span class="sd">        .. note:: clic on the top left corner and bottom right corner to select the area</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c"># plot the data</span>
+        <span class="n">h</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">plotBoundary</span><span class="p">()</span>
+        <span class="c"># select top left and bottom right corner for crop</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Select top left and bottom right corner for crop :&#39;</span><span class="p">)</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pylab</span><span class="o">.</span><span class="n">ginput</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">res</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&quot;all&quot;</span><span class="p">)</span>
+        <span class="c"># create x and Y coordinate</span>
+        
+        <span class="n">xx</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">yy</span><span class="o">=</span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="c"># size of the initial map</span>
+        <span class="n">ss</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+        <span class="c"># find xmin xmax ymin and ymax</span>
+        <span class="n">xmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xx</span><span class="p">))</span>
+        <span class="n">xmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xx</span><span class="p">))</span>
+        <span class="n">ymin</span><span class="o">=</span><span class="n">ss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">yy</span><span class="p">))</span>
+        <span class="n">ymax</span><span class="o">=</span><span class="n">ss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">yy</span><span class="p">))</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">))):</span>
+            <span class="c"># crop the map</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+            <span class="c">#</span>
+            <span class="n">ss</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+            <span class="c">#self.exx[i].field=self.exx[i].field[ymin:ymax, xmin:xmax]</span>
+            <span class="c">#self.eyy[i].field=self.eyy[i].field[ymin:ymax, xmin:xmax]</span>
+            <span class="c">#self.exy[i].field=self.exy[i].field[ymin:ymax, xmin:xmax]</span>
+            <span class="c">#self.eeq[i].field=self.eeq[i].field[ymin:ymax, xmin:xmax]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t11</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t11</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+            <span class="c">#self.strain[i].t33.field=self.strain[i].t33.field[ymin:ymax, xmin:xmax]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t12</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t12</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+            <span class="c">#self.strain[i].t13.field=self.strain[i].t13.field[ymin:ymax, xmin:xmax]</span>
+            <span class="c">#self.strain[i].t23.field=self.strain[i].t23.field[ymin:ymax, xmin:xmax]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t33</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t13</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t23</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ss</span><span class="p">)</span>
+            
+            <span class="bp">self</span><span class="o">.</span><span class="n">oxy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">oxy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">ymin</span><span class="p">:</span><span class="n">ymax</span><span class="p">,</span> <span class="n">xmin</span><span class="p">:</span><span class="n">xmax</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">grain_label</span><span class="p">()</span>
+        
+        <span class="c"># replace grains boundary with NaN number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">.</span><span class="n">field</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">.</span><span class="n">field</span><span class="p">,</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">idx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">field</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grains</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        </div>
+<div class="viewcode-block" id="dic.strain_macro"><a class="viewcode-back" href="../index.html#dic.dic.strain_macro">[docs]</a>    <span class="k">def</span> <span class="nf">strain_macro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">nb_line</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Compute the macroscopic strain along the y-axis (vertical) using 2 methods :</span>
+<span class="sd">        </span>
+<span class="sd">        (1)-mean of eyy \n</span>
+<span class="sd">        (2)-dic line (see Fanny Grennerat Thesis)</span>
+<span class="sd">            </span>
+<span class="sd">        :param nb_line: number of line skip at the top and bottom part of the picture during (2) evalutation</span>
+<span class="sd">        :type nb_line: int</span>
+<span class="sd">        :return: macro_eyy, method (1)</span>
+<span class="sd">        :rtype: array</span>
+<span class="sd">        :return: macro_line, method (2)</span>
+<span class="sd">        :rtype: array</span>
+<span class="sd">        :return: time, time of each point (seconds)</span>
+<span class="sd">        :rtype: array</span>
+<span class="sd">        :Exemple:</span>
+<span class="sd">            &gt;&gt;&gt; [time,macro_eyy,macro_line]=data.strain_macro()</span>
+<span class="sd">            &gt;&gt;&gt; plt.plot(time,macro_eyy)</span>
+<span class="sd">            &gt;&gt;&gt; plt.show()</span>
+<span class="sd">            </span>
+<span class="sd">        .. warning:: If you have macro_eyy~=-macro_line, it is because you did not correct the gdr output </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">time</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">macro_eyy</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">))</span>
+        <span class="n">macro_line</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">))</span>
+        <span class="c"># number of line along y</span>
+        <span class="n">nby</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">))):</span>
+            <span class="n">time</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">time</span>
+            <span class="n">macro_eyy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+            <span class="n">macro_line</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">nb_line</span><span class="p">,:])</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">[</span><span class="n">nby</span><span class="o">-</span><span class="n">nb_line</span><span class="p">,:]))</span><span class="o">/</span><span class="p">((</span><span class="n">nby</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">nb_line</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">res</span><span class="p">)</span>
+            
+            
+        <span class="k">return</span> <span class="n">time</span><span class="p">,</span><span class="n">macro_eyy</span><span class="p">,</span><span class="n">macro_line</span>
+    </div>
+<div class="viewcode-block" id="dic.find_pic"><a class="viewcode-back" href="../index.html#dic.dic.find_pic">[docs]</a>    <span class="k">def</span> <span class="nf">find_pic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">strain_step</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Find picture number as between 2 picture the increment of deformation is macro_strain</span>
+<span class="sd">        </span>
+<span class="sd">        :param strain_step: macroscopic strain between 2 picture.</span>
+<span class="sd">        :type strain_step: float</span>
+<span class="sd">        :return: nb_img</span>
+<span class="sd">        :rtype: array</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="c"># extract macroscopic strain from the data</span>
+        <span class="p">[</span><span class="n">time</span><span class="p">,</span><span class="n">macro_eyy</span><span class="p">,</span><span class="n">macro_line</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain_macro</span><span class="p">()</span>
+        
+        <span class="n">nb_img</span><span class="o">=</span><span class="p">[]</span>
+        
+        <span class="c">#last strain record</span>
+        <span class="n">minstrain</span><span class="o">=</span><span class="n">macro_line</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">macro_line</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        
+        <span class="c">#number of iteration</span>
+        <span class="n">it</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">minstrain</span><span class="o">/</span><span class="n">strain_step</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="n">it</span><span class="p">)):</span>
+            <span class="c"># find where the macro strain is higher that the step</span>
+            <span class="n">idx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">macro_line</span><span class="o">&gt;-</span><span class="mf">1.</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">strain_step</span><span class="p">)</span>
+            <span class="c"># take the minimum</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">macro_line</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">macro_line</span><span class="p">[</span><span class="n">idx</span><span class="p">]))</span>
+            <span class="n">nb_img</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            
+            <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span><span class="s">&#39;wanted_image.txt&#39;</span><span class="p">,</span><span class="n">nb_img</span><span class="p">,</span><span class="n">fmt</span><span class="o">=</span><span class="s">&#39;</span><span class="si">%i</span><span class="s">&#39;</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nb_img</span><span class="p">)[:,</span><span class="mi">0</span><span class="p">]</span>
+    </div>
+<div class="viewcode-block" id="dic.noise_map"><a class="viewcode-back" href="../index.html#dic.dic.noise_map">[docs]</a>    <span class="k">def</span> <span class="nf">noise_map</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        compute the variance of a set of map for u, v, exx, eyy, exy, eeq</span>
+<span class="sd">        :return su,sv,sexx,seyy,sexy,seeq:</span>
+<span class="sd">        :rtype su,sv,sexx,seyy,sexy,seeq: im2d.image2d</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">l</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+        <span class="n">st11</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)))</span>
+        <span class="n">st22</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)))</span>
+        <span class="n">st12</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)))</span>
+        <span class="n">steq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)))</span>
+        <span class="n">su</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)))</span>
+        <span class="n">sv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">l</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)))</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">))):</span>
+            <span class="n">st11</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t11</span><span class="o">.</span><span class="n">field</span>
+            <span class="n">st22</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">field</span>
+            <span class="n">st12</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">t12</span><span class="o">.</span><span class="n">field</span>
+            <span class="n">su</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span>
+            <span class="n">sv</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">field</span>
+            <span class="n">steq</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">eqVonMises</span><span class="p">()</span><span class="o">.</span><span class="n">field</span>
+            
+        <span class="k">return</span> <span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">su</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">res</span><span class="p">),</span> <span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">sv</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">res</span><span class="p">),</span> <span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">st11</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">res</span><span class="p">),</span> <span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">st22</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">res</span><span class="p">),</span> <span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">st12</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">res</span><span class="p">),</span> <span class="n">im2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">steq</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">res</span><span class="p">)</span>
+        
+        </div>
+<div class="viewcode-block" id="dic.movie"><a class="viewcode-back" href="../index.html#dic.dic.movie">[docs]</a>    <span class="k">def</span> <span class="nf">movie</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">optdic</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">tl_img</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">vmin</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span><span class="n">vmin_i</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span><span class="n">vmax_i</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span><span class="n">colorbarcenter</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">colorbar</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">brg</span><span class="p">,</span><span class="n">fps</span><span class="o">=</span><span class="mf">5.</span><span class="p">,</span><span class="n">nb_line</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">subarea</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        :param name: name of the output file ###.mp4</span>
+<span class="sd">        :type optdic: str</span>
+<span class="sd">        :param optdic: 1=eqVonMises, 2=twod princitipal_strain, 3=eyy</span>
+<span class="sd">        :type optdic: int</span>
+<span class="sd">        :param tl_img: top left image </span>
+<span class="sd">        :type tl_img: aita or dic</span>
+<span class="sd">        :param vmin: c axis minimum fig1 </span>
+<span class="sd">        :type vmin: float</span>
+<span class="sd">        :param vmax: c axis maximum fig1 </span>
+<span class="sd">        :type vmax: float</span>
+<span class="sd">        :param vmin_i: c axis minimum fig2 </span>
+<span class="sd">        :type vmin_i: float</span>
+<span class="sd">        :param vmax_i: c axis maximum fig2</span>
+<span class="sd">        :type vmax_i: float</span>
+<span class="sd">        :param colorbarcenter: do you want center the colorbar</span>
+<span class="sd">        :type colorbarcenter: bool</span>
+<span class="sd">        :param colorbar: color of the colorbar</span>
+<span class="sd">        :type colorbar: matplotlib.cm</span>
+<span class="sd">        :param fps: frame per second</span>
+<span class="sd">        :type fps: int</span>
+<span class="sd">        :param nb_line: number of line for the dic line (see function strain_macro)</span>
+<span class="sd">        :type nb_line: int</span>
+<span class="sd">        :param subarea: Do you want select a sub area</span>
+<span class="sd">        :type subarea: bool</span>
+<span class="sd">        </span>
+<span class="sd">        :return: movie</span>
+<span class="sd">        :rtype: .mp4</span>
+<span class="sd">        </span>
+<span class="sd">       </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">if</span> <span class="p">(</span><span class="n">subarea</span><span class="o">==</span><span class="bp">True</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">tl_img</span><span class="p">)</span><span class="o">==</span><span class="n">dic</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+            <span class="n">tl_img</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">u</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">eqVonMises</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin_i</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">vmax_i</span><span class="p">,</span><span class="n">colorbarcenter</span><span class="o">=</span><span class="n">colorbarcenter</span><span class="p">,</span><span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">)</span>
+            <span class="n">xl</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">ginput</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+            
+        <span class="p">[</span><span class="n">tt</span><span class="p">,</span><span class="n">eyy</span><span class="p">,</span><span class="n">dl</span><span class="p">]</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">strain_macro</span><span class="p">(</span><span class="n">nb_line</span><span class="o">=</span><span class="n">nb_line</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tl_img</span><span class="p">)</span><span class="o">==</span><span class="n">aita</span><span class="o">.</span><span class="n">aita</span><span class="p">:</span>
+            <span class="n">h</span><span class="p">,</span><span class="n">img</span><span class="o">=</span><span class="n">tl_img</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+       
+        <span class="k">def</span> <span class="nf">make_frame</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">facecolor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+            <span class="c">#fig=plt.subplot(2,1,1)</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">fps</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+            <span class="c">#ax.set_title(&quot;DIC&quot;, fontsize=16)</span>
+            <span class="k">if</span> <span class="n">optdic</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">eqVonMises</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span><span class="n">colorbarcenter</span><span class="o">=</span><span class="n">colorbarcenter</span><span class="p">,</span><span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">micro</span><span class="o">.</span><span class="n">plotBoundary</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">optdic</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">principal_tensor</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">100</span><span class="o">/</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">space</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="n">twod</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">absolutemax</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">colorbarcenter</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">plotmin</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">optdic</span><span class="o">==</span><span class="mi">3</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">t22</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span><span class="n">colorbarcenter</span><span class="o">=</span><span class="n">colorbarcenter</span><span class="p">,</span><span class="n">colorbar</span><span class="o">=</span><span class="n">colorbar</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">subarea</span><span class="o">==</span><span class="bp">True</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]),</span><span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+                        
+            <span class="k">return</span> <span class="n">mplfig_to_npimage</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+        
+        <span class="k">def</span> <span class="nf">make_strain</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">facecolor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">fps</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="c">#, figsize=(5, 10), facecolor=(1,1,1))</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tl_img</span><span class="p">)</span><span class="o">==</span><span class="n">aita</span><span class="o">.</span><span class="n">aita</span><span class="p">:</span>
+                <span class="n">nx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">tl_img</span><span class="o">.</span><span class="n">phi</span><span class="o">.</span><span class="n">field</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span><span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">tl_img</span><span class="o">.</span><span class="n">phi</span><span class="o">.</span><span class="n">res</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">nx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">tl_img</span><span class="o">.</span><span class="n">phi</span><span class="o">.</span><span class="n">res</span><span class="p">))</span>                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="c">#, figsize=(5, 10), facecolor=(1,1,1))</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tt</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">id</span><span class="p">]</span><span class="o">/</span><span class="mf">3600.</span><span class="p">,</span><span class="n">dl</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">id</span><span class="p">],</span><span class="s">&#39;-b&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Time (h)&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Strain&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span><span class="o">/</span><span class="mf">3600.</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dl</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dl</span><span class="p">)])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">mplfig_to_npimage</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">())</span>
+        
+        <span class="k">def</span> <span class="nf">make_increment</span><span class="p">(</span><span class="n">t</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">facecolor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+            <span class="nb">id</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">fps</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s">&#39;off&#39;</span><span class="p">)</span>
+            <span class="c">#plt.title(&quot;Increment&quot;, fontsize=16)</span>
+            <span class="c">#if optdic==1:</span>
+            <span class="c">#    tl_img.strain[id].eqVonMises().plot(vmin=vmin_i,vmax=vmax_i,colorbarcenter=colorbarcenter,colorbar=colorbar)</span>
+            <span class="c">#elif optdic==2:</span>
+            <span class="n">bg</span><span class="o">=</span><span class="n">tl_img</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">t11</span>
+            <span class="n">bg</span><span class="o">.</span><span class="n">field</span><span class="p">[:,:]</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+            <span class="n">tl_img</span><span class="o">.</span><span class="n">strain</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">principal_tensor</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">space</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">twod</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">absolutemax</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span><span class="n">colorbarcenter</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">plotmin</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="n">vmax_i</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">patches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]),</span><span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+            <span class="c">#elif optdic==3:</span>
+            <span class="c">#   tl_img.strain[id].t22.plot(vmin=vmin_i,vmax=vmax_i,colorbarcenter=colorbarcenter,colorbar=colorbar)</span>
+            <span class="k">if</span> <span class="n">subarea</span><span class="o">==</span><span class="bp">True</span><span class="p">:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])])</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]),</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xl</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])])</span>
+            <span class="k">return</span> <span class="n">mplfig_to_npimage</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+        
+        <span class="n">strainfig</span> <span class="o">=</span><span class="n">mpy</span><span class="o">.</span><span class="n">VideoClip</span><span class="p">(</span><span class="n">make_frame</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">)</span><span class="o">/</span><span class="n">fps</span><span class="p">)</span>            
+        <span class="n">straincurvefig</span> <span class="o">=</span><span class="n">mpy</span><span class="o">.</span><span class="n">VideoClip</span><span class="p">(</span><span class="n">make_strain</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">)</span><span class="o">/</span><span class="n">fps</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">tl_img</span><span class="p">)</span><span class="o">==</span><span class="n">dic</span><span class="p">:</span>
+            <span class="n">straininc</span> <span class="o">=</span><span class="n">mpy</span><span class="o">.</span><span class="n">VideoClip</span><span class="p">(</span><span class="n">make_increment</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strain</span><span class="p">)</span><span class="o">/</span><span class="n">fps</span><span class="p">)</span>
+            <span class="n">animation</span> <span class="o">=</span> <span class="n">mpy</span><span class="o">.</span><span class="n">clips_array</span><span class="p">([[</span><span class="n">strainfig</span><span class="p">,</span><span class="n">straininc</span> <span class="p">,</span><span class="n">straincurvefig</span><span class="p">]])</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">animation</span> <span class="o">=</span> <span class="n">mpy</span><span class="o">.</span><span class="n">clips_array</span><span class="p">([[</span><span class="n">strainfig</span><span class="p">,</span> <span class="n">straincurvefig</span><span class="p">]])</span>
+        <span class="c"># animation.write_gif(&quot;sinc_mpl.gif&quot;, fps=5)</span>
+        <span class="n">animation</span><span class="o">.</span><span class="n">write_videofile</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fps</span><span class="o">=</span><span class="n">fps</span><span class="p">)</span>
+
+
+        
+        <span class="k">return</span>   </div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">DIC toolbox 0.1a1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Thomas Chauve.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

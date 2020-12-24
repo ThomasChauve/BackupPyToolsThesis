@@ -1,0 +1,888 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to DIC toolbox’s documentation! &mdash; DIC toolbox 0.1a1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DIC toolbox 0.1a1 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">DIC toolbox 0.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-dic-toolbox-s-documentation">
+<h1>Welcome to DIC toolbox&#8217;s documentation!<a class="headerlink" href="#welcome-to-dic-toolbox-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents: This toolbox is build to analysed output from 7D sofware</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="post-7d-treatment">
+<h1>Post-7D treatment<a class="headerlink" href="#post-7d-treatment" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-correct7Dgdr">
+<span id="correct7dgdr"></span><h2>correct7Dgdr<a class="headerlink" href="#module-correct7Dgdr" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-correct7Dgdr"></span><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">used this program on the data export using &#8216;txt&gt;&gt;gdr&#8217; of the 7D version 0.9.5.178</p>
+</div>
+<p>This program correct the error in the output data from 7D version 0.9.5.178 were dy=-dy and exy=-exy</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Example:</th><td class="field-body">&gt;&gt; run correct7Dgdr in the folder contening the output &#8216;.txt&#8217;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-mean7Dgdr">
+<span id="mean7dgdr"></span><h2>mean7Dgdr<a class="headerlink" href="#module-mean7Dgdr" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-mean7Dgdr"></span><p>This program is doing the mean of 7D output.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">please for each 7D analyses with different initial image create a folder as &#8216;IMG###&#8217;</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the mean data will be export in the folder allIMG</p>
+</div>
+</div>
+</div>
+<div class="section" id="dic-toolbox">
+<h1>DIC Toolbox<a class="headerlink" href="#dic-toolbox" title="Permalink to this headline">¶</a></h1>
+<p><strong>Toolbox module</strong></p>
+<span class="target" id="module-dic"></span><p>Created on 21 août 2015</p>
+<span class="target" id="module-dic"></span><p>Toolbox for data obtained using 7D software create by Pierre Vacher
+7D software is software to perform Digital Image Correlation (DIC). This toolbox is used to analysed the data export from 7D software by using the exportation by &#8216;txt&gt;&gt;gdr&#8217;</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">In 7D version 0.9.5.178 there is a mistake during the expoprtation using &#8216;txt&gt;&gt;gdr&#8217; dy=-dy and exy=-exy. Use &#8216;correct7Dgdr.py&#8217; before using this toolbox</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if you want reduce the error due to the DIC process by doing the mean of multiple output, please refers to &#8216;mean7Dgdr.py&#8217;</p>
+</div>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="dic.dic">
+<em class="property">class </em><tt class="descclassname">dic.</tt><tt class="descname">dic</tt><big>(</big><em>adr_data</em>, <em>resolution</em>, <em>time_step</em>, <em>adr_micro=0</em><big>)</big><a class="reference internal" href="_modules/dic.html#dic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dic.dic" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8216;dic&#8217; is a python class to analyse data from 2D digital image correlation</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">this toolbox is build to work with the output from 7D using txt&gt;&gt;gdr export</p>
+</div>
+<dl class="method">
+<dt id="dic.dic.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>adr_data</em>, <em>resolution</em>, <em>time_step</em>, <em>adr_micro=0</em><big>)</big><a class="reference internal" href="_modules/dic.html#dic.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dic.dic.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>adr_data</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; folder path where the 7D output are store</li>
+<li><strong>resolution</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; pixel size of the image used for DIC (millimeters)</li>
+<li><strong>time_step</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; time step between the picture (seconds)</li>
+<li><strong>adr_micro</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path for the black and white skeleton of the microstructure (bmp format) (default 0 - no microstructure)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dic.dic.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#dic.dic.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dic.dic.crop">
+<tt class="descname">crop</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dic.html#dic.crop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dic.dic.crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop function to select the area of interest</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">crop dic object</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">dic</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Exemple:</th><td class="field-body"><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">.</span><span class="n">crop</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">clic on the top left corner and bottom right corner to select the area</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="dic.dic.find_pic">
+<tt class="descname">find_pic</tt><big>(</big><em>strain_step=0.001</em><big>)</big><a class="reference internal" href="_modules/dic.html#dic.find_pic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dic.dic.find_pic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find picture number as between 2 picture the increment of deformation is macro_strain</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>strain_step</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; macroscopic strain between 2 picture.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nb_img</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dic.dic.movie">
+<tt class="descname">movie</tt><big>(</big><em>name</em>, <em>optdic=1</em>, <em>tl_img=0</em>, <em>vmin=nan</em>, <em>vmax=nan</em>, <em>vmin_i=nan</em>, <em>vmax_i=nan</em>, <em>colorbarcenter=False</em>, <em>colorbar=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x7fa617658ed0&gt;</em>, <em>fps=5.0</em>, <em>nb_line=3</em>, <em>subarea=False</em><big>)</big><a class="reference internal" href="_modules/dic.html#dic.movie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dic.dic.movie" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> &#8211; name of the output file ###.mp4</li>
+<li><strong>optdic</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; 1=eqVonMises, 2=twod princitipal_strain, 3=eyy</li>
+<li><strong>tl_img</strong> (<em>aita or dic</em>) &#8211; top left image</li>
+<li><strong>vmin</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; c axis minimum fig1</li>
+<li><strong>vmax</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; c axis maximum fig1</li>
+<li><strong>vmin_i</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; c axis minimum fig2</li>
+<li><strong>vmax_i</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; c axis maximum fig2</li>
+<li><strong>colorbarcenter</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; do you want center the colorbar</li>
+<li><strong>colorbar</strong> (<em>matplotlib.cm</em>) &#8211; color of the colorbar</li>
+<li><strong>fps</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; frame per second</li>
+<li><strong>nb_line</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of line for the dic line (see function strain_macro)</li>
+<li><strong>subarea</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Do you want select a sub area</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">movie</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">.mp4</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dic.dic.noise_map">
+<tt class="descname">noise_map</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/dic.html#dic.noise_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dic.dic.noise_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute the variance of a set of map for u, v, exx, eyy, exy, eeq
+:return su,sv,sexx,seyy,sexy,seeq:
+:rtype su,sv,sexx,seyy,sexy,seeq: im2d.image2d</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dic.dic.strain_macro">
+<tt class="descname">strain_macro</tt><big>(</big><em>nb_line=3</em><big>)</big><a class="reference internal" href="_modules/dic.html#dic.strain_macro"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dic.dic.strain_macro" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the macroscopic strain along the y-axis (vertical) using 2 methods :</p>
+<p>(1)-mean of eyy</p>
+<p>(2)-dic line (see Fanny Grennerat Thesis)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nb_line</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of line skip at the top and bottom part of the picture during (2) evalutation</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">macro_eyy, method (1)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">array</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">macro_line, method (2)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">array</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">time, time of each point (seconds)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">array</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Exemple:</th><td class="field-body"><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">time</span><span class="p">,</span><span class="n">macro_eyy</span><span class="p">,</span><span class="n">macro_line</span><span class="p">]</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">strain_macro</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span><span class="n">macro_eyy</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If you have macro_eyy~=-macro_line, it is because you did not correct the gdr output</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="other-object-defined">
+<h1>Other object defined<a class="headerlink" href="#other-object-defined" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-symetricTensorMap">
+<span id="symetrictensormap"></span><h2>symetricTensorMap<a class="headerlink" href="#module-symetricTensorMap" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-symetricTensorMap"></span><p>Created on 21 oct. 2015
+This class defined map of symetric def positive tensor map.</p>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="symetricTensorMap.symetricTensorMap">
+<em class="property">class </em><tt class="descclassname">symetricTensorMap.</tt><tt class="descname">symetricTensorMap</tt><big>(</big><em>t11</em>, <em>t22</em>, <em>t33</em>, <em>t12</em>, <em>t13</em>, <em>t23</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class defined map of symetric def positive tensor map.</p>
+<p>This toolbox is running on python and need various packages :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Library:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.__add__">
+<tt class="descname">__add__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the sum of two map tensor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>t11</em>, <em>t22</em>, <em>t33</em>, <em>t12</em>, <em>t13</em>, <em>t23</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build symetricTensorMap object with 6 map (image2d object)</p>
+<dl class="docutils">
+<dt>t11 t12 t13</dt>
+<dd><dl class="first last docutils">
+<dt>t22 t23</dt>
+<dd>t33</dd>
+</dl>
+</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tii</strong> (<a class="reference internal" href="#module-image2d" title="image2d"><em>image2d</em></a>) &#8211; map of tii composante</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">symetricTensorMap object</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+<p>symetricTensorMap structure :</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Element:</th><td class="field-body"><a href="#id1"><span class="problematic" id="id2">*</span></a>.tii : 6 &#8216;image2d&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.__mul__">
+<tt class="descname">__mul__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the multiplication pixel by pixel of two map tensor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">symetricTensorMap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="symetricTensorMap.symetricTensorMap.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.diag">
+<tt class="descname">diag</tt><big>(</big><em>twod=True</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.diag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.diag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Diagonalisation of the symetricTensorMap</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>twod</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; use a 2d symetric tensor (=&gt; t33=t23=t13=0) (default True)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a, eigenvalue dim(3*n*m) where n*m is the dimension of the map (self.t11.field.shape)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array (3*n*m)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">v, eigenvector dim(3*3*n*m) where n*m is the dimension of the map (self.t11.field.shape)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">array (3*n*m)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">the eigenvector v(:,k,n,m) is associated to the eigenvalue a(k,n,m)</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.eqVonMises">
+<tt class="descname">eqVonMises</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.eqVonMises"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.eqVonMises" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the Von Mises equivalent norm of the tensor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Von Mises equivalent norm (2/3*eij*eij)^0.5</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.eqtensor2d">
+<tt class="descname">eqtensor2d</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.eqtensor2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.eqtensor2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the equivalent norm of the tensor as it is a 2D mesurement</p>
+<p>teq=sqrt(2/3*(t11^2+t22^2+2*t12^2))</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">equivalent norm as it is a 2d measurement</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.extract_data">
+<tt class="descname">extract_data</tt><big>(</big><em>pos=[]</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.extract_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.extract_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the value at the position &#8216;pos&#8217; or where you clic</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pos</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; array [x,y] position of the data, if pos==[], clic to select the pixel</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">3*3 symetric matrix of the pixel wanted</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.matrix</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.mean">
+<tt class="descname">mean</tt><big>(</big><em>mask=[]</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a mean tensor over the map</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">symetric matrice of the mean tensor (3*3)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.matrix</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.principal_tensor">
+<tt class="descname">principal_tensor</tt><big>(</big><em>scale=100</em>, <em>space=5</em>, <em>twod=False</em>, <em>absolutemax=False</em>, <em>colorbarcenter=True</em>, <em>plotmin=False</em>, <em>vmax=0</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.principal_tensor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.principal_tensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the principal tensor direction</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>scale</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; scale of the arrow (default 100)</li>
+<li><strong>space</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; take only 1 value every &#8216;space&#8217; value to not charge the picture to much (default 5)</li>
+<li><strong>twod</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; use a 2d symetric tensor (=&gt; t33=t23=t13=0) (default False)</li>
+<li><strong>colorbarcenter</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; do you want center the colorbar around 0</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image of the principal tensor direction</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">matplotlib.pyplot</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.ratio_e1_e2">
+<tt class="descname">ratio_e1_e2</tt><big>(</big><em>twod=True</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.ratio_e1_e2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.ratio_e1_e2" title="Permalink to this definition">¶</a></dt>
+<dd><p>give an image2d of the ration e_max/e_2</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="symetricTensorMap.symetricTensorMap.stress_contour">
+<tt class="descname">stress_contour</tt><big>(</big><em>mask</em><big>)</big><a class="reference internal" href="_modules/symetricTensorMap.html#symetricTensorMap.stress_contour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#symetricTensorMap.symetricTensorMap.stress_contour" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-image2d">
+<span id="image2d"></span><h2>image2d<a class="headerlink" href="#module-image2d" title="Permalink to this headline">¶</a></h2>
+<p>Created on 3 juil. 2015</p>
+<p>image2d is a class used to manipulate image under matrix shape and to do the analyses on the picture</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">It has been build to manipulate both aita data and dic data</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">As all function are applicable to aita and dic data, please be careful of the meaning of what you are doing depending of the input data used !</p>
+</div>
+<p>&#64;author: Thomas Chauve
+&#64;contact: <a class="reference external" href="mailto:thomas&#46;chauve&#37;&#52;&#48;lgge&#46;obs&#46;ujf-grenoble&#46;fr">thomas<span>&#46;</span>chauve<span>&#64;</span>lgge<span>&#46;</span>obs<span>&#46;</span>ujf-grenoble<span>&#46;</span>fr</a>
+&#64;license: CC-BY-CC</p>
+<dl class="class">
+<dt id="image2d.image2d">
+<em class="property">class </em><tt class="descclassname">image2d.</tt><tt class="descname">image2d</tt><big>(</big><em>field</em>, <em>resolution</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>image2d is a class for map of scalar data</p>
+<dl class="method">
+<dt id="image2d.image2d.__add__">
+<tt class="descname">__add__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__add__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum of 2 maps</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__div__">
+<tt class="descname">__div__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__div__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__div__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide self by other case by case</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__init__">
+<tt class="descname">__init__</tt><big>(</big><em>field</em>, <em>resolution</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor : field is a matrix and resolution is the step size in mm</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>field</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; tabular of scalar data</li>
+<li><strong>resolution</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; step size resolution (millimeters)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__mul__">
+<tt class="descname">__mul__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__mul__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__mul__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiply case by case</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.__sub__">
+<tt class="descname">__sub__</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.__sub__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.__sub__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract of 2 maps</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="image2d.image2d.__weakref__">
+<tt class="descname">__weakref__</tt><a class="headerlink" href="#image2d.image2d.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.auto_correlation">
+<tt class="descname">auto_correlation</tt><big>(</big><em>pad=1</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.auto_correlation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.auto_correlation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the auto-correlation function from Dumoulin 2003</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pad</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; padding with mean data (default 1)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">res_auto which the auto correlation function</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">image2d</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Cinf see equation 6 Doumalin 2003</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">float</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">profil, it correspond to 180 profile taken for along line with direction between 0 and 180°. The profil[i,:] correspond to a line making an angle of i degree from x direction.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">np.array 180*length profile</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">xi, it correspond to the distance along the profile for the variable profile</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">np.array 180*length profile</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cross, it correspond to the length of the autocorrelation radius</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">np.array dim=180</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Exemple:</th><td class="field-body"><div class="first last highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="c"># Using a fake image</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="o">=</span><span class="n">image2d</span><span class="o">.</span><span class="n">image2d</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">200</span><span class="p">),</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">res_auto</span><span class="p">,</span><span class="n">Cinf</span><span class="p">,</span><span class="n">profil</span><span class="p">,</span><span class="n">xi</span><span class="p">,</span><span class="n">cross</span><span class="p">]</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">auto_correlation</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># plot the auto correlation function</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res_auto</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;plt.show()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># plot the auto_correlation radius in function of the angle of the profile</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cross</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;angle degree&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;auto correlation radius (mm)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c"># extract the max and min auto correlation radius</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cross</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">cross</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">minC</span><span class="o">=</span><span class="nb">id</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">id</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cross</span><span class="o">==</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">cross</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxC</span><span class="o">=</span><span class="nb">id</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ss</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">xi</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CC</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ss</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">Cinf</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">[</span><span class="mi">0</span><span class="p">,:],</span><span class="n">CC</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s">&#39;on&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">[</span><span class="n">minC</span><span class="p">,:],</span><span class="n">profil</span><span class="p">[</span><span class="n">minC</span><span class="p">,:])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xi</span><span class="p">[</span><span class="n">maxC</span><span class="p">,:],</span><span class="n">profil</span><span class="p">[</span><span class="n">maxC</span><span class="p">,:])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.diff">
+<tt class="descname">diff</tt><big>(</big><em>axis</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.diff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Derive the image along the axis define</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>axis</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; &#8216;x&#8217; to do du/dx or &#8216;y&#8217; to do du/dy</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">differential of the map in respect to the &#8216;axis&#8217; wanted</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">image2d</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">&#8216;x&#8217; axis is left to right and &#8216;y&#8217; is bottom to top direction</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.extract_data">
+<tt class="descname">extract_data</tt><big>(</big><em>pos=[]</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.extract_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.extract_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the value at the position &#8216;pos&#8217; or where you clic</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pos</strong> (<a class="reference external" href="http://docs.python.org/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; array [x,y] position of the data, if pos==[], clic to select the pixel</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.extract_profil">
+<tt class="descname">extract_profil</tt><big>(</big><em>pos=0</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.extract_profil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.extract_profil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract data along a given profile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pos</strong> (<em>np.array dim 2*2</em>) &#8211; correspond to the position of the line np.array([[X0,Y0],[X1,Y1]])</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">x</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">postion along the profile</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">out</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">value along the profile</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">pos</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">starting and ending points</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.imresize">
+<tt class="descname">imresize</tt><big>(</big><em>res</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.imresize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.imresize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize the image with nearest interpolation to have a pixel of the length given in res</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>res</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; new resolution map wanted (millimeters)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.mask_build">
+<tt class="descname">mask_build</tt><big>(</big><em>polygone=False</em>, <em>r=0</em>, <em>grainId=[]</em>, <em>pos_center=0</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.mask_build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.mask_build" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a mask map with NaN value where you don&#8217;t want data and one were you want
+The default mask is a circle of center you choose and radius you define.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>polygone</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; make a polygone mask (&#8216;not yet implemented&#8217;)</li>
+<li><strong>r</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; radius of the circle (warning what is the dimention of r mm ?)</li>
+<li><strong>grainId</strong> &#8211; You select the grainId you want in an array</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><p class="first">array</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">mask</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">image2d</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">vec (vector of grainId is selction by grain or pos_center if selection by circle or 0 if polygone )</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">if you want applied a mask one your data just do data*mask where data is an image2d object</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.plot">
+<tt class="descname">plot</tt><big>(</big><em>vmin=nan</em>, <em>vmax=nan</em>, <em>colorbarcenter=False</em>, <em>colorbar=&lt;matplotlib.colors.LinearSegmentedColormap object at 0x7fa617658f50&gt;</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot the image2d</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>vmin</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; minimum value for the colorbar</li>
+<li><strong>vmax</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; maximun value for the colorbar</li>
+<li><strong>colorbarcenter</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; do you want center the colorbar around 0</li>
+<li><strong>colorbar</strong> &#8211; colorbar from matplotlib.cm</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">colorbar : cm.jet for eqstrain-stress</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.pow">
+<tt class="descname">pow</tt><big>(</big><em>nb</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.pow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.pow" title="Permalink to this definition">¶</a></dt>
+<dd><p>map power nb</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>nb</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.skeleton">
+<tt class="descname">skeleton</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.skeleton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.skeleton" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skeletonized a label map build by grain_label</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.triple_junction">
+<tt class="descname">triple_junction</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.triple_junction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.triple_junction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Localized the triple junction</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="image2d.image2d.vtk_export">
+<tt class="descname">vtk_export</tt><big>(</big><em>nameId</em><big>)</big><a class="reference internal" href="_modules/image2d.html#image2d.vtk_export"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#image2d.image2d.vtk_export" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export the image2d into vtk file
+:param nameId: name of the output file
+:type name: str</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to DIC toolbox&#8217;s documentation!</a></li>
+<li><a class="reference internal" href="#post-7d-treatment">Post-7D treatment</a><ul>
+<li><a class="reference internal" href="#module-correct7Dgdr">correct7Dgdr</a></li>
+<li><a class="reference internal" href="#module-mean7Dgdr">mean7Dgdr</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dic-toolbox">DIC Toolbox</a></li>
+<li><a class="reference internal" href="#other-object-defined">Other object defined</a><ul>
+<li><a class="reference internal" href="#module-symetricTensorMap">symetricTensorMap</a></li>
+<li><a class="reference internal" href="#module-image2d">image2d</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">DIC toolbox 0.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Thomas Chauve.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
